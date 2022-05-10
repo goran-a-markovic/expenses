@@ -21,8 +21,15 @@ public class EmployeeTicketsServlet extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         String status = req.getParameter("status");
-        System.out.println(status);
         int empId = Integer.parseInt(req.getParameter("employee_id"));
+        if (status == null) {
+            CustomList<Ticket> tickets = TicketService.getAllTicketsEmployee(empId);
+            System.out.println("All Tickets for this Employee:");
+            String json = mapper.writeValueAsString(tickets);
+            res.setStatus(200);
+            out.print(json);
+        }
+        System.out.println(status);
         if (status.equals("pending")) {
             CustomList<Ticket> tickets = TicketService.getPendingTickets(empId);
             System.out.println("All Pending Tickets for this Employee:");
@@ -30,7 +37,7 @@ public class EmployeeTicketsServlet extends HttpServlet {
             System.out.println(json);
             res.setStatus(200);
             out.print(json);
-        } else {
+        } else if (status.equals("past")) {
             CustomList<Ticket> tickets = TicketService.getPastTickets(empId);
             System.out.println("All Past Tickets for this Employee:");
             String json = mapper.writeValueAsString(tickets);

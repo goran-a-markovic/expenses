@@ -2,10 +2,7 @@ package org.example.daos;
 
 import org.example.entities.Manager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ManagerDaoImpl implements ManagerDao {
 
@@ -35,6 +32,39 @@ public class ManagerDaoImpl implements ManagerDao {
             e1.printStackTrace();
         }
         return manager;
+    }
+
+    @Override
+    public void initTables() {
+        // we don't see any ? placeholders because this statement will be the same every time
+        String sql = "drop table if exists managers cascade; create table managers(\n" +
+                "\tid serial primary key,\n" +
+                "\tusername varchar(50),\n" +
+                "\tpassword varchar(50)\n" +
+                "\t);";
+        // we could add a procedure as well as so we can test it with h2
+        try {
+            // creating a statement instead of preparinf it
+            Statement statement = connection.createStatement();
+            statement.execute(sql);
+            System.out.println("initializing tables");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void fillTables() {
+        String sql = "insert into managers(id, username, password) values(default, 'Manager1', 'emp1');\n";
+
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute(sql);
+            System.out.println("filling with data");
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

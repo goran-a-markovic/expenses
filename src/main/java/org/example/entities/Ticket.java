@@ -20,6 +20,12 @@ public class Ticket {
         this.status = status;
     }
 
+    public Ticket(double price, String description, int employeeId) {
+        this.price = price;
+        this.description = description;
+        this.employeeId = employeeId;
+    }
+
 
     public Ticket(int id, double price, String description, String status, Date createdAt, int employeeId) {
         this.id = id;

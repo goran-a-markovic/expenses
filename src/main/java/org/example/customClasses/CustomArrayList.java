@@ -2,6 +2,7 @@ package org.example.customClasses;
 
 
 import java.util.Arrays;
+import java.util.Objects;
 
 // here, we're going to make our own custom array list:
 // to create a generic class, we use "T" to indicate that this class can be of any type:
@@ -56,7 +57,7 @@ public class CustomArrayList <T> implements CustomList<T> {
     public void print() {
         // for each loop:
         for(Object element: elements) {
-            if(element != null) System.out.print(element + ", ");
+            if(!Objects.isNull(element)) System.out.print(element + ", ");
         }
         System.out.println();
         // System.out.println("Size: " + size);

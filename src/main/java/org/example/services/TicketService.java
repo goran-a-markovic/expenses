@@ -14,6 +14,11 @@ public class TicketService {
         return ticketDao.getAllTickets();
     }
 
+    public static CustomList<Ticket> getAllTicketsEmployee(int id) {
+        TicketDao ticketDao = DaoFactory.getTicketDao();
+        return ticketDao.getAllTicketsEmployee(id);
+    }
+
     public static Ticket getTicketById(int id) {
         TicketDao ticketDao = DaoFactory.getTicketDao();
         return ticketDao.getTicketById(id);
@@ -44,9 +49,11 @@ public class TicketService {
         return ticket;
     }
 
-    public static Ticket acceptTicket(Ticket ticket) {
+    public static Ticket acceptTicket(Ticket ticket, String decision) {
         TicketDao ticketDao = DaoFactory.getTicketDao();
-        ticketDao.acceptTicket(ticket);
+        ticketDao.acceptTicket(ticket, decision);
+        System.out.println("Service:");
+        System.out.println(decision);
         return ticket;
     }
 //

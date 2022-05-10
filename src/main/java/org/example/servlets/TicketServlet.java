@@ -52,8 +52,7 @@ public class TicketServlet extends HttpServlet {
             payload.setStatus("pending");
             Ticket ticket = TicketService.add(payload);
             resp.setStatus(203);
-            resp.getWriter().print("Ticket added!\n");
-            resp.getWriter().write(ticket.toString());
+            resp.getWriter().print("Ticket submitted successfully!\n");
         } catch (IOException e) {
             resp.setStatus(500);
             resp.getWriter().print("Something went wrong when adding the ticket.");
@@ -66,7 +65,11 @@ public class TicketServlet extends HttpServlet {
     public void doPut(HttpServletRequest req, HttpServletResponse res) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Ticket ticket = mapper.readValue(req.getReader(), Ticket.class);
-        Ticket result = TicketService.acceptTicket(ticket);
+        String decision = ticket.getStatus();
+        System.out.println(decision);
+        Ticket result = TicketService.acceptTicket(ticket, decision);
+        System.out.println("Status jebeni");
+        System.out.println(result.getStatus());
         PrintWriter out = res.getWriter();
         out.write("Ticket edited!");
     }

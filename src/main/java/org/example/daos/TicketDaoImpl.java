@@ -28,9 +28,11 @@ public class TicketDaoImpl implements TicketDao {
                 ResultSet resultSet = preparedStatement.getGeneratedKeys();
                 resultSet.next();
                 int id = resultSet.getInt(1);
+                ticket.setId(id);
+                ticket.setStatus("pending");
                 System.out.println("Ticket ID is : " + id);
             } else {
-                System.out.println("Something went wrong when running your transaction!");
+                System.out.println("Something went wrong when adding a ticket!");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -107,6 +109,28 @@ public class TicketDaoImpl implements TicketDao {
     }
 
     @Override
+    public CustomList<Ticket> getAllTicketsEmployee(int employeeId) {
+        CustomList<Ticket> tickets = new CustomArrayList<Ticket>();
+        String sql = "select * from tickets where employee_id = ?;";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, employeeId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                Ticket ticket = getTicket(resultSet);
+                tickets.add(ticket);
+            }
+            return tickets;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tickets;
+    }
+
+
+
+
+    @Override
     public CustomList<Ticket> getAllPendingTickets() {
         CustomList<Ticket> tickets = new CustomArrayList<Ticket>();
         String sql = "select * from tickets where status = 'pending';";
@@ -162,11 +186,11 @@ public class TicketDaoImpl implements TicketDao {
     }
 
     @Override
-    public void acceptTicket(Ticket ticket) {
+    public void acceptTicket(Ticket ticket, String decision) {
         String sql = "update tickets set status = ? where id = ?;";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, ticket.getStatus());
+            preparedStatement.setString(1, decision);
             preparedStatement.setInt(2, ticket.getId());
             int count = preparedStatement.executeUpdate();
             if (count == 1) System.out.println("Update successful!");
@@ -193,4 +217,42 @@ public class TicketDaoImpl implements TicketDao {
 //            e.printStackTrace();
 //        }
 //    }
+
+    @Override
+    public void initTables() {
+        // we don't see any ? placeholders because this statement will be the same every time
+        String sql = "drop table if exists tickets cascade; create table tickets(\n" +
+                "\tid serial primary key,\n" +
+                "\tprice integer,\n" +
+                "\tdescription varchar(200),\n" +
+                "\tstatus varchar(50),\n" +
+                "\ttime_created timestamp,\n" +
+                "\temployee_id int,\n" +
+                "\tforeign key (employee_id) references employees(id)\n" +
+                "\tON DELETE cascade\n" +
+                "\t);";
+
+        // we could add a procedure as well as so we can test it with h2
+        try {
+            // creating a statement instead of preparinf it
+            Statement statement = connection.createStatement();
+            statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public void fillTables() {
+        String sql = "insert into tickets(id, price, description, status, time_created, employee_id) values (default, 11, 'Ticket1', 'pending', current_timestamp, 1);\n";
+        sql += "insert into tickets(id, price, description, status, time_created, employee_id) values (default, 11, 'Ticket2', 'accepted', current_timestamp, 1);\n";
+
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute(sql);
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -8,10 +8,13 @@ public interface EmployeeDao {
 
     Employee getEmployeeByUsername(String username);
 
-    Employee getEmployeeById(int id);
+//    Employee getEmployeeById(int id);
 
     CustomList<Employee> getAllEmployees(); //should this be pluralized?
 
-    void updateEmployee(int id);
+//    void updateEmployee(int id);
+
+    public void initTables();
+    public void fillTables();
 
 }

@@ -22,7 +22,11 @@ public interface TicketDao {
     CustomList<Ticket> getPastTickets(int actNumber);
     CustomList<Ticket> getAllPastTickets();
 
-    void acceptTicket(Ticket ticket);
+    CustomList<Ticket> getAllTicketsEmployee(int employeeId);
 
+    void acceptTicket(Ticket ticket, String decision);
+
+    public void initTables();
+    public void fillTables();
 }
 
