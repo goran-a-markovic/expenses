@@ -62,6 +62,8 @@ public class CustomArrayList <T> implements CustomList<T> {
         // System.out.println("Size: " + size);
     }
 
+
+
     @Override
     public void add(int i, T element) {
         // TODO: Implement this

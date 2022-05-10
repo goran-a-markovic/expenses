@@ -1,4 +1,4 @@
-package org.example;
+package org.example.daos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,10 +6,10 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 
-public class ConnectionFactory {
+public class ConnectionManager {
     private static Connection connection = null;
 
-    private ConnectionFactory() {
+    private ConnectionManager() {
 
     }
 

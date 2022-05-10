@@ -17,12 +17,57 @@
 
 
     <servlet>
-        <servlet-name>userServlet</servlet-name>
-        <servlet-class>org.example.servlets.UserServlet</servlet-class>
+        <servlet-name>employeeServlet</servlet-name>
+        <servlet-class>org.example.servlets.EmployeeServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>userServlet</servlet-name>
-        <url-pattern>/users</url-pattern>
+        <servlet-name>employeeServlet</servlet-name>
+        <url-pattern>/employees</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ticketServlet</servlet-name>
+        <servlet-class>org.example.servlets.TicketServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ticketServlet</servlet-name>
+        <url-pattern>/tickets</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>employeeTicketsServlet</servlet-name>
+        <servlet-class>org.example.servlets.EmployeeTicketsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>employeeTicketsServlet</servlet-name>
+        <url-pattern>/employeetickets</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>managerServlet</servlet-name>
+        <servlet-class>org.example.servlets.ManagerTicketsOptionsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>managerServlet</servlet-name>
+        <url-pattern>/manager/tickets</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoginEmployeeServlet</servlet-name>
+        <servlet-class>org.example.servlets.LoginEmployeeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginEmployeeServlet</servlet-name>
+        <url-pattern>/employee/login</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoginManagerServlet</servlet-name>
+        <servlet-class>org.example.servlets.LoginManagerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginManagerServlet</servlet-name>
+        <url-pattern>/manager/login</url-pattern>
     </servlet-mapping>
 
 </web-app>

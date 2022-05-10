@@ -1,4 +1,4 @@
-package org.example.dao;
+package org.example.daos;
 
 import org.example.customClasses.CustomList;
 import org.example.entities.Ticket;
@@ -10,7 +10,6 @@ public interface TicketDao {
 
     public void insert(Ticket ticket);
 
-    //
     Ticket getTicketById(int id);
 
     CustomList<Ticket> getAllTickets();
@@ -18,10 +17,12 @@ public interface TicketDao {
     public Ticket getTicket(ResultSet resultSet);
 
     CustomList<Ticket> getPendingTickets(int actNumber);
+    CustomList<Ticket> getAllPendingTickets();
 
     CustomList<Ticket> getPastTickets(int actNumber);
+    CustomList<Ticket> getAllPastTickets();
 
-    void acceptTicket(int id, String decision);
+    void acceptTicket(Ticket ticket);
 
 }
 

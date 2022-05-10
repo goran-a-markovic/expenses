@@ -1,22 +1,17 @@
-package org.example.dao;
+package org.example.daos;
 
-import org.example.ConnectionFactory;
 import org.example.customClasses.CustomArrayList;
 import org.example.customClasses.CustomList;
 import org.example.entities.Ticket;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Date;
+import java.sql.*;
 
 public class TicketDaoImpl implements TicketDao {
 
     Connection connection;
 
     public TicketDaoImpl() {
-        connection = ConnectionFactory.getConnection();
+        connection = ConnectionManager.getConnection();
     }
 
     @Override
@@ -61,8 +56,8 @@ public class TicketDaoImpl implements TicketDao {
     //
     @Override
     public CustomList<Ticket> getAllTickets() {
-        CustomList<Ticket> tickets = new CustomArrayList<Ticket>();
-        String sql = "select * from tickets;";
+        CustomList<Ticket> tickets = new CustomArrayList<>();
+        String sql = "select * from tickets order by time_created;";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -85,7 +80,7 @@ public class TicketDaoImpl implements TicketDao {
             String description = resultSet.getString("description");
             String status = resultSet.getString("status");
             int employeeId = resultSet.getInt("employee_id");
-            Date createdAt = resultSet.getDate("created_at");
+            Timestamp createdAt = resultSet.getTimestamp("time_created");
             return new Ticket (idData, price, description, status, createdAt, employeeId);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -99,6 +94,24 @@ public class TicketDaoImpl implements TicketDao {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, employeeId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                Ticket ticket = getTicket(resultSet);
+                tickets.add(ticket);
+            }
+            return tickets;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tickets;
+    }
+
+    @Override
+    public CustomList<Ticket> getAllPendingTickets() {
+        CustomList<Ticket> tickets = new CustomArrayList<Ticket>();
+        String sql = "select * from tickets where status = 'pending';";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()) {
                 Ticket ticket = getTicket(resultSet);
@@ -131,12 +144,30 @@ public class TicketDaoImpl implements TicketDao {
     }
 
     @Override
-    public void acceptTicket(int id, String decision) {
+    public CustomList<Ticket> getAllPastTickets() {
+        CustomList<Ticket> tickets = new CustomArrayList<Ticket>();
+        String sql = "select * from tickets where status != 'pending';";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                Ticket ticket = getTicket(resultSet);
+                tickets.add(ticket);
+            }
+            return tickets;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tickets;
+    }
+
+    @Override
+    public void acceptTicket(Ticket ticket) {
         String sql = "update tickets set status = ? where id = ?;";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, decision);
-            preparedStatement.setInt(2, id);
+            preparedStatement.setString(1, ticket.getStatus());
+            preparedStatement.setInt(2, ticket.getId());
             int count = preparedStatement.executeUpdate();
             if (count == 1) System.out.println("Update successful!");
             else System.out.println("Something went wrong with the update");

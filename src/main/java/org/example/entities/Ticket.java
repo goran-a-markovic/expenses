@@ -10,7 +10,10 @@ public class Ticket {
     private Date createdAt;
     private int employeeId;
 
-    
+    public Ticket() {
+
+    }
+
     public Ticket(double price, String description, String status) {
         this.price = price;
         this.description = description;
@@ -34,6 +37,7 @@ public class Ticket {
     public void setId(int id) {
         this.id = id;
     }
+
     public double getPrice() {
         return price;
     }

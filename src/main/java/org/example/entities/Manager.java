@@ -1,30 +1,31 @@
 package org.example.entities;
 
-public class User {
+public class Manager {
     private int id;
     private String username;
     private String password;
 
+    public Manager() {
+        super();
+    }
 
-    public User() {};
-
-    public User(String username, String password) {
+    public Manager(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public User(int userId, String username, String password) {
-        this.id = userId;
+    public Manager(int id, String username, String password) {
+        this.id = id;
         this.username = username;
         this.password = password;
     }
 
-    public int getUserId() {
+    public int getId() {
         return id;
     }
 
-    public void setUserId(int userId) {
-        this.id = userId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getUsername() {
@@ -45,10 +46,11 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "userId=" + id +
+        return "Manager{" +
+                "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }
+
 }
