@@ -32,7 +32,8 @@ To-do list:
 Both Windows and Unix, follow these steps:
 
 git clone https://github.com/goran-a-markovic/expenses
-\Create local database and change resources/dbConfig.properties accordingly\
+
+Create local database and change resources/dbConfig.properties accordingly\
 Open and make sure your Tomcat Server installed and running.
 
 
