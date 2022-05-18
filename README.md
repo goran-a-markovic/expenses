@@ -6,13 +6,13 @@ REST API for the Expenses Reimbursement System
 
 ## Technologies Used
 
-Java
-JDBC
-PostgreSQL
-Tomcat Server 9.0
-Maven
-Servlets
-JUnit
+Java\
+JDBC\
+PostgreSQL\
+Tomcat Server 9.0\
+Maven\
+Servlets\
+JUnit\
 
 ## Features
 
